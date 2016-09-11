@@ -1,0 +1,85 @@
+group 'SHC_Application_Framework'
+version '1.0.0_alpha'
+
+allprojects {
+
+    apply plugin: 'java'
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        //testCompile group: 'junit', name: 'junit', version: '4.11'
+        compile group: 'com.google.guava', name: 'guava', version: '+'
+    }
+}
+
+//Jar Archive aller Subprojekte erstellen
+task buildSubprojects(type: Jar) {
+
+    dependsOn subprojects.build
+}
+
+//alle Subprojekte in eine Zip Datei packen
+task buildDistribution(type: Zip) {
+
+    from subprojects.jar.outputs.files into '.'
+}
+
+//alle Subprojekte in eine Zip Datei packen
+task buildDistributionWithDocumentation(type: Zip) {
+
+    classifier = 'with_docs'
+    into('.') {
+
+        from subprojects.jar.outputs.files
+        into('JavaDoc') {
+
+            from 'JavaDoc'
+        }
+        into('RestDoc') {
+
+            from 'RestDoc'
+        }
+    }
+}
+
+//alle Subprojekte in eine Zip Datei packen (mit Quellcode)
+task buildDistributionSources(type: Zip) {
+
+    classifier = 'sources'
+    into('./SHC_Application_Server/src') {
+
+        from 'SHC_Application_Server/src'
+    }
+    into('./SHC_Desktop_Client/src') {
+
+        from 'SHC_Desktop_Client/src'
+    }
+    into('JavaDoc') {
+
+        from 'JavaDoc'
+    }
+    into('RestDoc') {
+
+        from 'RestDoc'
+    }
+}
+
+//Anwendung erstellen
+task buildApplication() {
+
+    dependsOn buildSubprojects
+    dependsOn buildDistribution
+    dependsOn buildDistributionWithDocumentation
+    dependsOn buildDistributionSources
+}

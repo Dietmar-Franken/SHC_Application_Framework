@@ -1,0 +1,20 @@
+group 'SHC_Desktop_Client'
+version = rootProject.version
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+jar {
+    manifest {
+        attributes  'Implementation-Title': 'SHC Desktop Client',
+                    'Implementation-Version': version,
+                    'Main-Class': 'de.test.Test'
+    }
+}

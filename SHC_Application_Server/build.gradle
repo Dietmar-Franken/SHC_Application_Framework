@@ -1,0 +1,25 @@
+group 'SHC_Application_Server'
+version = rootProject.version
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile group: 'com.google.code.gson', name: 'gson', version: '+'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    compile group: 'redis.clients', name: 'jedis', version: '+'
+    // https://mvnrepository.com/artifact/com.luckycatlabs/SunriseSunsetCalculator
+    compile group: 'com.luckycatlabs', name: 'SunriseSunsetCalculator', version: '+'
+}
+
+jar {
+    manifest {
+        attributes  'Implementation-Title': 'SHC Application Server',
+                    'Implementation-Version': version,
+                    'Main-Class': 'de.rpi_controlcenter.AppServer.Controller.AppServer'
+    }
+}

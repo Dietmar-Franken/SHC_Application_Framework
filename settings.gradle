@@ -1,0 +1,4 @@
+rootProject.name = 'de.rpi-controlcenter'
+include 'SHC_Application_Server'
+include 'SHC_Desktop_Client'
+
