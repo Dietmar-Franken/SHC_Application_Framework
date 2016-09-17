@@ -61,14 +61,14 @@ public interface Operation extends AutomationElement {
      *
      * @return Blockierungszeit
      */
-    Duration getBlockingTime();
+    int getBlockingTime();
 
     /**
      * setzt die Blockierungszeit
      *
      * @param blockingTime Blockierungszeit
      */
-    void setBlockingTime(Duration blockingTime);
+    void setBlockingTime(int blockingTime);
 
     /**
      * gibt den Zeitpunkt des Endes der Blockierungszeit zurück

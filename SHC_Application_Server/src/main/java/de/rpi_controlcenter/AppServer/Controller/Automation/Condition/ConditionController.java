@@ -4,6 +4,7 @@ import de.rpi_controlcenter.AppServer.Controller.AppServer;
 import de.rpi_controlcenter.AppServer.Controller.Util.DateTime.SunriseSunsetUtil;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.AutomationElement;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.Conditions.*;
+import de.rpi_controlcenter.AppServer.Model.Data.Automation.Conditions.Interface.Condition;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.Devices.Sensor.*;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.Devices.Sensor.Interface.SensorValue;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.Devices.Switchable.Interface.Switchable;
@@ -32,6 +33,63 @@ import java.util.Set;
  * @copyright Copyright (c) 2016, Oliver Kleditzsch
  */
 public abstract class ConditionController {
+
+    public static boolean isSatisfies(Condition condition) {
+
+        switch(condition.getType()) {
+
+            case CONDITION_CALENDAR_WEEK:
+
+                return isSatisfies((CalendarWeekCondition) condition);
+            case CONDITION_DATE:
+
+                return isSatisfies((DateCondition) condition);
+            case CONDITION_DAY_OF_WEEK:
+
+                return isSatisfies((DayOfWeekCondition) condition);
+            case CONDITION_FILE:
+
+                return isSatisfies((FileCondition) condition);
+            case CONDITION_HOLIDAYS:
+
+                return isSatisfies((HolidaysCondition) condition);
+            case CONDITION_HUMIDITY:
+
+                return isSatisfies((HumidityCondition) condition);
+            case CONDITION_INPUT:
+
+                return isSatisfies((InputCondition) condition);
+            case CONDITION_LIGHT_INTENSITY:
+
+                return isSatisfies((LightIntensityCondition) condition);
+            case CONDITION_MOISTURE:
+
+                return isSatisfies((MoistureCondition) condition);
+            case CONDITION_NOBODY_AT_HOME:
+
+                return isSatisfies((NobodyAtHomeCondition) condition);
+            case CONDITION_DAY:
+
+                return isSatisfies((DayCondition) condition);
+            case CONDITION_NIGHT:
+
+                return isSatisfies((NightCondition) condition);
+            case CONDITION_SWITCHABLE_STATE:
+
+                return isSatisfies((SwitchableStateCondition) condition);
+            case CONDITION_TEMPERATURE:
+
+                return isSatisfies((TemperatureCondition) condition);
+            case CONDITION_TIME:
+
+                return isSatisfies((TimeCondition) condition);
+            case CONDITION_USER_AT_HOME:
+
+                return isSatisfies((UserAtHomeCondition) condition);
+            default:
+                throw new IllegalArgumentException("Unbekannter Typ");
+        }
+    }
 
     /**
      * prüft on die Bedingun zutrifft

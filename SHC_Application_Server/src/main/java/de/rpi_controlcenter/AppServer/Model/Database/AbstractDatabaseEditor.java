@@ -4,9 +4,7 @@ import de.rpi_controlcenter.AppServer.Model.Data.Element.Element;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Datenbank Verwaltung
@@ -100,6 +98,47 @@ public abstract class AbstractDatabaseEditor<T extends Element> implements Datab
             }
         }
         return Optional.empty();
+    }
+
+    /**
+     * gibt eine Liste mit den Elementen der IDs zurück
+     *
+     * @param sensorIds Liste mit IDs
+     * @return Liste mit Elementen
+     */
+    public Set<T> getSublist(Set<String> sensorIds) {
+
+        Set<T> subList = new HashSet<T>();
+        for(String id : sensorIds) {
+
+            Optional<T> element = getById(id);
+            if(element.isPresent()) {
+
+                subList.add(element.get());
+            }
+        }
+        return subList;
+    }
+
+    /**
+     * gibt eine Liste mit den Elementen der IDs zurück (gefiltert nach einem Typ)
+     *
+     * @param sensorIds Liste mit IDs
+     * @param type Typ filtern
+     * @return Liste mit Elementen
+     */
+    public Set<T> getSublist(Set<String> sensorIds, Class type) {
+
+        Set<T> subList = new HashSet<T>();
+        for(String id : sensorIds) {
+
+            Optional<T> element = getById(id);
+            if(element.isPresent() && type.isInstance(element)) {
+
+                subList.add(element.get());
+            }
+        }
+        return subList;
     }
 
     /**

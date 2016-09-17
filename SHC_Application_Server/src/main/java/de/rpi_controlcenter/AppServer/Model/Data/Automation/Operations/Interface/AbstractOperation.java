@@ -37,7 +37,7 @@ public abstract class AbstractOperation extends AbstractAutomationElement implem
      * Zeit die nach einer Ausführung gewartet werden muss bevor die Operation erneut ausgeführt wrid
      */
     @ValidateNotNull(errorCode = 10000, message = "Das Feld %s ist Null, sollte aber nicht")
-    private Duration blockingTime;
+    private int blockingTime;
 
     /**
      * Zeitpunkt des Endes der Sperrzeit (null wenn Sperrzeit nicht aktiv)
@@ -54,6 +54,16 @@ public abstract class AbstractOperation extends AbstractAutomationElement implem
      */
     @ValidateSize(min = 1, errorCode = 10207, message = "Es muss mindestens ein schaltbares Element vorhanden sein")
     private Set<String> switchables = new HashSet<>();
+
+    /**
+     * @param id ID
+     * @param name Name
+     */
+    public AbstractOperation(String id, String name) {
+
+        setId(id);
+        setName(name);
+    }
 
     /**
      * gibt den letzten Status zurück
@@ -114,7 +124,7 @@ public abstract class AbstractOperation extends AbstractAutomationElement implem
      *
      * @return Blockierungszeit
      */
-    public Duration getBlockingTime() {
+    public int getBlockingTime() {
         return blockingTime;
     }
 
@@ -123,7 +133,7 @@ public abstract class AbstractOperation extends AbstractAutomationElement implem
      *
      * @param blockingTime Blockierungszeit
      */
-    public void setBlockingTime(Duration blockingTime) {
+    public void setBlockingTime(int blockingTime) {
         this.blockingTime = blockingTime;
     }
 

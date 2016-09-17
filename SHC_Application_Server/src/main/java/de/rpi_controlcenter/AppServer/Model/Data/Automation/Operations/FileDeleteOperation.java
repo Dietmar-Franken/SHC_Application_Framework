@@ -10,9 +10,9 @@ import de.rpi_controlcenter.Util.Validation.Annotation.ValidateNotNull;
  * @author Oliver Kleditzsch
  * @copyright Copyright (c) 2016, Oliver Kleditzsch
  */
-public class FileCreateOperation extends AbstractOperation {
+public class FileDeleteOperation extends AbstractOperation {
 
-    private Type type = Type.OPERATION_FILE_CREATE;
+    private Type type = Type.OPERATION_FILE_DELETE;
 
     /**
      * zu überwachender Dateipfad
@@ -25,7 +25,7 @@ public class FileCreateOperation extends AbstractOperation {
      * @param id ID
      * @param name Name
      */
-    public FileCreateOperation(String id, String name) {
+    public FileDeleteOperation(String id, String name) {
 
         super(id, name);
     }
