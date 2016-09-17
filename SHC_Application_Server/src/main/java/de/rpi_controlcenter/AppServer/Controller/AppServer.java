@@ -110,6 +110,11 @@ public class AppServer {
     private SwitchableEditor switchables;
 
     /**
+     * Bedingungen verwaltung
+     */
+    private ConditionEditor conditions;
+
+    /**
      * Eintrittspunkt in die Anwendung
      *
      * @param args CLI Argumente
@@ -296,6 +301,9 @@ public class AppServer {
 
         switchables = new SwitchableEditor();
         switchables.load();
+
+        conditions = new ConditionEditor();
+        conditions.load();
     }
 
     /**
@@ -368,6 +376,15 @@ public class AppServer {
      */
     public SwitchableEditor getSwitchables() {
         return switchables;
+    }
+
+    /**
+     * gibt die Bedingungs Verwaltung zurück
+     *
+     * @return Bedingungen
+     */
+    public ConditionEditor getConditions() {
+        return conditions;
     }
 
     /**
