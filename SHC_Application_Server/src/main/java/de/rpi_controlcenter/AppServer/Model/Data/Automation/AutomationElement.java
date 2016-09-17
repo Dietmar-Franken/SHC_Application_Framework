@@ -45,8 +45,6 @@ public interface AutomationElement extends Element {
         CONDITION_TIME,
         @SerializedName("CONDITION_USER_AT_HOME")
         CONDITION_USER_AT_HOME,
-        @SerializedName("CONDITION_USER_NOT_AT_HOME")
-        CONDITION_USER_NOT_AT_HOME,
 
         @SerializedName("SWITCHABLE_AVM_SOCKET")
         SWITCHABLE_AVM_SOCKET,
