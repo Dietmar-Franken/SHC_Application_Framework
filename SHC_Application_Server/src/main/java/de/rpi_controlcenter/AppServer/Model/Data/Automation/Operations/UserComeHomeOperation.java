@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class UserComeHomeOperation extends AbstractOperation {
 
-    private AutomationElement.Type type = Type.OPERATION_USER_LEAVE_HOME;
+    private AutomationElement.Type type = Type.OPERATION_USER_COME_HOME;
 
     /**
      * Liste der zu überwachenden Sensoren
