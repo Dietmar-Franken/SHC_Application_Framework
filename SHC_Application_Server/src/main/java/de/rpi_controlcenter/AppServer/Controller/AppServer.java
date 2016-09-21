@@ -115,6 +115,11 @@ public class AppServer {
     private ConditionEditor conditions;
 
     /**
+     * Automatisierungsoperationen verwaltung
+     */
+    private OperationEditor operations;
+
+    /**
      * Eintrittspunkt in die Anwendung
      *
      * @param args CLI Argumente
@@ -304,6 +309,9 @@ public class AppServer {
 
         conditions = new ConditionEditor();
         conditions.load();
+
+        operations = new OperationEditor();
+        operations.load();
     }
 
     /**
@@ -388,6 +396,15 @@ public class AppServer {
     }
 
     /**
+     * gibt die Automatisierungsoperationen Verwaltung zurück
+     *
+     * @return Automatisierungsoperationen
+     */
+    public OperationEditor getOperations() {
+        return operations;
+    }
+
+    /**
      * Prüft ob die Anwendung Installiert werden muss oder ein Update ansteht
      */
     private void checkInstallOrUpdate() {
@@ -432,6 +449,8 @@ public class AppServer {
         switchServers.dump();
         sensorValues.dump();
         switchables.dump();
+        conditions.dump();
+        operations.dump();
     }
 
     /**

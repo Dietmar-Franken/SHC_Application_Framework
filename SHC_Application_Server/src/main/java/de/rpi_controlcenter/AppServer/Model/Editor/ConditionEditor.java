@@ -40,8 +40,8 @@ public class ConditionEditor extends AbstractDatabaseEditor<Condition> {
 
             JsonObject jo = jp.parse(conditionJson).getAsJsonObject();
             Class clazz = getTypeClass(jo.get("type").getAsString());
-            Condition sensorValue = (Condition) gson.fromJson(conditionJson, clazz);
-            data.add(sensorValue);
+            Condition conditionValue = (Condition) gson.fromJson(conditionJson, clazz);
+            data.add(conditionValue);
         }
     }
 
@@ -57,9 +57,9 @@ public class ConditionEditor extends AbstractDatabaseEditor<Condition> {
         List<Condition> data = getData();
 
         pipeline.del(DATABASE_KEY);
-        for(Condition sensorValue : data) {
+        for(Condition conditionValue : data) {
 
-            pipeline.lpush(DATABASE_KEY, gson.toJson(sensorValue));
+            pipeline.lpush(DATABASE_KEY, gson.toJson(conditionValue));
         }
         pipeline.sync();
     }

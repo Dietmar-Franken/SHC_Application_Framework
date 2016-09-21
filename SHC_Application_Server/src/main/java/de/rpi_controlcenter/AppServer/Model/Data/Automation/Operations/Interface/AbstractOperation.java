@@ -52,6 +52,7 @@ public abstract class AbstractOperation extends AbstractAutomationElement implem
     /**
      * Liste der schaltbaren Elemente
      */
+    //TODO Durch Command Objekte ersetzen (Switchable + Befehl)
     @ValidateSize(min = 1, errorCode = 10207, message = "Es muss mindestens ein schaltbares Element vorhanden sein")
     private Set<String> switchables = new HashSet<>();
 

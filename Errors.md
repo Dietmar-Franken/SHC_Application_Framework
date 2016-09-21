@@ -34,3 +34,4 @@
 | 10206 | Ungültiger Offset (SensorValue) 
 | 10207 | es muss mindestens ein schaltbares Element vorhanden sein (AutomationOperation) 
 | 10208 | es muss mindestens ein Sensorwert vorhanden sein (AutomationOperation) 
+| 10209 | Ungültige Zeitangabe (AutomationOperation) 
