@@ -12,16 +12,41 @@ import java.util.SortedSet;
  */
 public abstract class CornjobCalculator {
 
+    /**
+     * Berechnet die nächste Ausführungszeit für das übergebene Muster
+     *
+     * @param minute  Minuten
+     * @param hour    Stunden
+     * @param day     Tage
+     * @param weekday Wochentage
+     * @param month   Monate
+     * @return Zeitstempel
+     */
     public static LocalDateTime calculateNextRunTime(SortedSet<Integer> minute, SortedSet<Integer> hour, SortedSet<Integer> day, SortedSet<Integer> weekday, SortedSet<Integer> month) {
 
+        return calculateNextRunTime(minute, hour, day, weekday, month, LocalDateTime.now());
+    }
+
+    /**
+     * Berechnet die nächste Ausführungszeit für das übergebene Muster
+     *
+     * @param minute              Minuten
+     * @param hour                Stunden
+     * @param day                 Tage
+     * @param weekday             Wochentage
+     * @param month               Monate
+     * @param calulationStartDate Start Zeitstempel für die Berechnung
+     * @return Zeitstempel
+     */
+    public static LocalDateTime calculateNextRunTime(SortedSet<Integer> minute, SortedSet<Integer> hour, SortedSet<Integer> day, SortedSet<Integer> weekday, SortedSet<Integer> month, LocalDateTime calulationStartDate) {
+
         //Daten Initalisieren
-        LocalDateTime now = LocalDateTime.now();
-        int nextMinute, currentMinute = nextMinute = now.getMinute();
-        int nextHour, currentHour = nextHour = now.getHour();
-        int nextWeekday, currentWeekday = nextWeekday = now.getDayOfWeek().getValue();
-        int nextDay, currentDay = nextDay = now.getDayOfMonth();
-        int nextMonth, currentMonth = nextMonth = now.getMonthValue();
-        int nextYear = now.getYear();
+        int nextMinute, currentMinute = nextMinute = calulationStartDate.getMinute();
+        int nextHour, currentHour = nextHour = calulationStartDate.getHour();
+        int nextWeekday, currentWeekday = nextWeekday = calulationStartDate.getDayOfWeek().getValue();
+        int nextDay, currentDay = nextDay = calulationStartDate.getDayOfMonth();
+        int nextMonth, currentMonth = nextMonth = calulationStartDate.getMonthValue();
+        int nextYear = calulationStartDate.getYear();
 
         //Prüfen welche Daten immer ausgeführt werden
         boolean everyMinute = minute.size() == 0;
@@ -50,9 +75,9 @@ public abstract class CornjobCalculator {
         } else {
 
             //nächste Minute aus der Liste ermitteln
-            if(nextRunBit(minute, currentMinute) != -1) {
+            if(nextRunTime(minute, currentMinute) != -1) {
 
-                nextMinute = nextRunBit(minute, currentMinute);
+                nextMinute = nextRunTime(minute, currentMinute);
             } else {
 
                 nextMinute = firstRunTime(minute);
@@ -81,9 +106,9 @@ public abstract class CornjobCalculator {
             } else {
 
                 //nächste Stunde aus der Liste ermitteln
-                if(nextRunBit(hour, currentHour) != -1) {
+                if(nextRunTime(hour, currentHour) != -1) {
 
-                    nextHour = nextRunBit(hour, currentHour);
+                    nextHour = nextRunTime(hour, currentHour);
                 } else {
 
                     nextHour = firstRunTime(hour);
@@ -109,7 +134,7 @@ public abstract class CornjobCalculator {
                     //jeder Tag
                     nextDay++;
 
-                    if(nextDay > YearMonth.now().lengthOfMonth()) {
+                    if(nextDay > YearMonth.of(calulationStartDate.getYear(), calulationStartDate.getMonth()).lengthOfMonth()) {
 
                         nextDay = 1;
                         restMonth = 1;
@@ -117,9 +142,9 @@ public abstract class CornjobCalculator {
                 } else {
 
                     //nächster Tag aus der Liste ermitteln
-                    if(nextRunBit(day, currentDay) != -1) {
+                    if(nextRunTime(day, currentDay) != -1) {
 
-                        nextDay = nextRunBit(day, currentDay);
+                        nextDay = nextRunTime(day, currentDay);
                     } else {
 
                         nextDay = firstRunTime(day);
@@ -134,9 +159,9 @@ public abstract class CornjobCalculator {
             } else {
 
                 //Wochentag berechnen
-                if(nextRunBit(weekday, currentWeekday) != -1) {
+                if(nextRunTime(weekday, currentWeekday) != -1) {
 
-                    nextWeekday = nextRunBit(weekday, currentWeekday);
+                    nextWeekday = nextRunTime(weekday, currentWeekday);
                 } else {
 
                     nextWeekday = firstRunTime(weekday);
@@ -147,7 +172,7 @@ public abstract class CornjobCalculator {
 
                     nextDay += 7;
                 }
-                if(nextDay > YearMonth.now().lengthOfMonth()) {
+                if(nextDay > YearMonth.of(calulationStartDate.getYear(), calulationStartDate.getMonth()).lengthOfMonth()) {
 
                     restMonth = 1;
                 }
@@ -175,9 +200,9 @@ public abstract class CornjobCalculator {
                 }
             } else {
 
-                if(nextRunBit(month, currentMonth) != -1) {
+                if(nextRunTime(month, currentMonth) != -1) {
 
-                    nextMonth = nextRunBit(month, currentMonth);
+                    nextMonth = nextRunTime(month, currentMonth);
                 } else {
 
                     nextMonth = firstRunTime(month);
@@ -241,7 +266,14 @@ public abstract class CornjobCalculator {
         return LocalDateTime.of(nextYear, nextMonth, nextDay, nextHour, nextMinute);
     }
 
-    private static int nextRunBit(SortedSet<Integer> data, int current) {
+    /**
+     * gibt die nächste Asuführungszeit zurück
+     *
+     * @param data    Liste mit Zeiten
+     * @param current Aktuelle Zeit
+     * @return Zeit falls vorhanden, sonst -1
+     */
+    private static int nextRunTime(SortedSet<Integer> data, int current) {
 
         //Randbetrachtung jeder Ausführungszeitpunkt
         if(data.size() == 0) {
@@ -260,6 +292,12 @@ public abstract class CornjobCalculator {
         return -1;
     }
 
+    /**
+     * gibt die erste Ausführungszeit zurück
+     *
+     * @param data Liste mit Zeiten
+     * @return Zeit
+     */
     private static int firstRunTime(SortedSet<Integer> data) {
 
         //Randbetrachtung jeder Ausführungszeitpunkt
@@ -268,11 +306,18 @@ public abstract class CornjobCalculator {
             return 0;
         }
 
-        //nächste EInheit ermitteln
+        //nächste Einheit ermitteln
         return data.first();
     }
 
-    private static boolean runTimeExists(SortedSet<Integer> data, int bit) {
+    /**
+     * prüft ob eine Laufzeit in der Liste existiert
+     *
+     * @param data       Liste mit Zeiten
+     * @param checkTime  zu prüfende Zeit
+     * @return true wenn sie existiert
+     */
+    private static boolean runTimeExists(SortedSet<Integer> data, int checkTime) {
 
         //Randbetrachtung jeder Ausführungszeitpunkt
         if(data.size() == 0) {
@@ -280,7 +325,7 @@ public abstract class CornjobCalculator {
             return true;
         }
 
-        //nächste Einheit ermitteln
-        return data.contains(bit);
+        //prüfen
+        return data.contains(checkTime);
     }
 }
