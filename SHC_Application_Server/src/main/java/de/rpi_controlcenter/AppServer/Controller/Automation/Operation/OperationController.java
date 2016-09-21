@@ -8,6 +8,7 @@ import de.rpi_controlcenter.AppServer.Model.Data.Automation.Devices.Sensor.*;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.Devices.Sensor.Interface.SensorValue;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.Operations.*;
 import de.rpi_controlcenter.AppServer.Model.Data.Automation.Operations.Interface.Operation;
+import de.rpi_controlcenter.Util.DateTime.CornjobCalculator;
 import de.rpi_controlcenter.Util.DateTime.DateTimeUtil;
 
 import java.nio.file.Files;
@@ -16,9 +17,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Prüft ob die Automatisierungsoperationen zur Ausführung bereit sind
@@ -791,6 +790,120 @@ public abstract class OperationController {
                 //Sensor unbekannt
                 state.put(userAtHomeValue.getId(), userAtHomeValue.isAtHome());
             }
+        }
+
+        //Erfolg prüfen
+        if(!succsess) {
+
+            return false;
+        }
+
+        //Bedingungen prüfen
+        if(!postconditions(operation)) {
+
+            return false;
+        }
+
+        operation.setLastExecuteTime(LocalDateTime.now());
+        operation.setBlockingTimeEnd(LocalDateTime.now().plusSeconds(operation.getBlockingTime()));
+        return true;
+    }
+
+    /**
+     * prüft ob das Ereignis eingetreten ist
+     *
+     * @param operation Operation
+     * @return Ergebnis
+     */
+    public static boolean isSatisfies(TimeOperation operation) {
+
+        //Vorbedingungen prüfen
+        if(!preconditions(operation)) {
+
+            return false;
+        }
+
+        boolean succsess = false;
+        LocalDateTime nextExecutionTime = operation.getNextExecutionTime();
+        if(DateTimeUtil.isPast(nextExecutionTime) || nextExecutionTime.isEqual(LocalDateTime.now())) {
+
+            succsess = true;
+            //nächste Ausführungszeit berechnen
+            operation.setNextExecutionTime(
+                    CornjobCalculator.calculateNextRunTime(
+                            operation.getMinute(),
+                            operation.getHour(),
+                            operation.getDay(),
+                            operation.getWeekday(),
+                            operation.getMonth()
+                    )
+            );
+        }
+
+        //Erfolg prüfen
+        if(!succsess) {
+
+            return false;
+        }
+
+        //Bedingungen prüfen
+        if(!postconditions(operation)) {
+
+            return false;
+        }
+
+        operation.setLastExecuteTime(LocalDateTime.now());
+        operation.setBlockingTimeEnd(LocalDateTime.now().plusSeconds(operation.getBlockingTime()));
+        return true;
+    }
+
+    /**
+     * prüft ob das Ereignis eingetreten ist
+     *
+     * @param operation Operation
+     * @return Ergebnis
+     */
+    public static boolean isSatisfies(SimpleTimeOperation operation) {
+
+        //Vorbedingungen prüfen
+        if(!preconditions(operation)) {
+
+            return false;
+        }
+
+        boolean succsess = false;
+
+        //Eriegnis prüfen
+        LocalDateTime now = LocalDateTime.now();
+
+        LocalDateTime nextExecutionTime = operation.getNextExecutionTime();
+        if(DateTimeUtil.isPast(nextExecutionTime) || nextExecutionTime.isEqual(LocalDateTime.now())) {
+
+            succsess = true;
+
+            //Wochentage vorbereiten
+            SortedSet<Integer> weekdays = new TreeSet<>();
+            if(operation.getWeekdays() == SimpleTimeOperation.Weekdays.WEEKDAY) {
+
+                weekdays.addAll(Arrays.asList(1, 2, 3, 4, 5));
+            } else if(operation.getWeekdays() == SimpleTimeOperation.Weekdays.WEEKEND) {
+
+                weekdays.addAll(Arrays.asList(6, 7));
+            } else {
+
+                weekdays.addAll(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
+            }
+
+            //nächste Ausführungszeit berechnen
+            operation.setNextExecutionTime(
+                    CornjobCalculator.calculateNextRunTime(
+                            new TreeSet<>(Arrays.asList(operation.getMinute())),
+                            new TreeSet<>(Arrays.asList(operation.getHour())),
+                            new TreeSet<>(),
+                            weekdays,
+                            new TreeSet<>()
+                    )
+            );
         }
 
         //Erfolg prüfen

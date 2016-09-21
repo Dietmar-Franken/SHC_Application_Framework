@@ -152,7 +152,11 @@ public interface AutomationElement extends Element {
         @SerializedName("OPERATION_USER_COME_HOME")
         OPERATION_USER_COME_HOME,
         @SerializedName("OPERATION_USER_LEAVE_HOME")
-        OPERATION_USER_LEAVE_HOME
+        OPERATION_USER_LEAVE_HOME,
+        @SerializedName("OPERATION_TIME")
+        OPERATION_TIME,
+        @SerializedName("OPERATION_SIMPLE_TIME")
+        OPERATION_SIMPLE_TIME
     }
 
     enum State {
