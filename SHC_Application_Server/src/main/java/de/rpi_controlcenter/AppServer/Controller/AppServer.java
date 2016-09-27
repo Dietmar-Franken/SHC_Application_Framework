@@ -120,6 +120,11 @@ public class AppServer {
     private OperationEditor operations;
 
     /**
+     * Icon verwaltung
+     */
+    private IconEditor icons;
+
+    /**
      * Eintrittspunkt in die Anwendung
      *
      * @param args CLI Argumente
@@ -312,6 +317,9 @@ public class AppServer {
 
         operations = new OperationEditor();
         operations.load();
+
+        icons = new IconEditor();
+        icons.load();
     }
 
     /**
@@ -405,6 +413,15 @@ public class AppServer {
     }
 
     /**
+     * gibt die Icon Verwaltung rurück
+     *
+     * @return Icons
+     */
+    public IconEditor getIcons() {
+        return icons;
+    }
+
+    /**
      * Prüft ob die Anwendung Installiert werden muss oder ein Update ansteht
      */
     private void checkInstallOrUpdate() {
@@ -451,6 +468,7 @@ public class AppServer {
         switchables.dump();
         conditions.dump();
         operations.dump();
+        icons.dump();
     }
 
     /**

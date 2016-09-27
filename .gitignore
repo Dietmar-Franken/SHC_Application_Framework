@@ -17,3 +17,4 @@ hs_err_pid*
 /SHC_Application_Server/build
 /SHC_Desktop_Client/build
 db.config.json
+/Icons

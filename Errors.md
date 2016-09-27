@@ -13,6 +13,7 @@
 | 10006 | Ungültiger Hash (Allgemein) 
 | 10007 | Ungültige länge der Zeichenkette (Allgemein) 
 | 10008 | Ungültige Identifizierung (Allgemein) 
+| 10009 | Ungültige Datenfeld größe (Allgemein) 
 
 ### Benutzer Fehler
 
