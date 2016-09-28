@@ -141,9 +141,12 @@ public abstract class Installer {
                         String iconFileName = iconFile.getName().toLowerCase();
                         if(iconFileName.startsWith(fileName) && iconFileName.endsWith(".png")) {
 
-                            InputStream in = jarFile.getInputStream(iconFile);
                             Path out = destinationPath.resolve(iconFileName.replace("icons/", "")).toAbsolutePath();
-                            Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
+                            if(!Files.exists(out)) {
+
+                                InputStream in = jarFile.getInputStream(iconFile);
+                                Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
+                            }
                         }
                     }
                 }
