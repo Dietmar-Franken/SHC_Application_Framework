@@ -123,14 +123,14 @@ public abstract class AbstractDatabaseEditor<T extends Element> implements Datab
     /**
      * gibt eine Liste mit den Elementen der IDs zurück (gefiltert nach einem Typ)
      *
-     * @param sensorIds Liste mit IDs
+     * @param identifiers Liste mit IDs
      * @param type Typ filtern
      * @return Liste mit Elementen
      */
-    public Set<T> getSublist(Set<String> sensorIds, Class type) {
+    public Set<T> getSublist(Set<String> identifiers, Class type) {
 
         Set<T> subList = new HashSet<T>();
-        for(String id : sensorIds) {
+        for(String id : identifiers) {
 
             Optional<T> element = getById(id);
             if(element.isPresent() && type.isInstance(element)) {

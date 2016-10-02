@@ -15,7 +15,30 @@ public class Room extends AbstractViewElement {
      */
     private Map<Integer, RoomElement> roomElements = new HashMap<>();
 
+    /**
+     * Sortierungs ID
+     */
+    private int orderId = 1;
+
     private Type type = Type.ROOM;
+
+    /**
+     * gibt die Sortierung zurück
+     *
+     * @return Sortierung
+     */
+    public int getOrderId() {
+        return orderId;
+    }
+
+    /**
+     * setzt die Sortierung
+     *
+     * @param orderId Sortierung
+     */
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
     /**
      * fügt dem Raum ein neues Element hinzu
