@@ -125,6 +125,11 @@ public class AppServer {
     private IconEditor icons;
 
     /**
+     * Raum verwaltung
+     */
+    private RoomEditor rooms;
+
+    /**
      * Eintrittspunkt in die Anwendung
      *
      * @param args CLI Argumente
@@ -320,6 +325,9 @@ public class AppServer {
 
         icons = new IconEditor();
         icons.load();
+
+        rooms = new RoomEditor();
+        rooms.load();
     }
 
     /**
@@ -422,6 +430,15 @@ public class AppServer {
     }
 
     /**
+     * gibt die Raum Verwaltung rurück
+     *
+     * @return Räume
+     */
+    public RoomEditor getRooms() {
+        return rooms;
+    }
+
+    /**
      * Prüft ob die Anwendung Installiert werden muss oder ein Update ansteht
      */
     private void checkInstallOrUpdate() {
@@ -469,6 +486,7 @@ public class AppServer {
         conditions.dump();
         operations.dump();
         icons.dump();
+        rooms.dump();
     }
 
     /**
