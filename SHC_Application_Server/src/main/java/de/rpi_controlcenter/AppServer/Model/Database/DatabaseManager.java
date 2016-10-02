@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Datenbankverwaltung
@@ -71,6 +75,35 @@ public class DatabaseManager {
         }
         jedis.select(db);
         return jedis;
+    }
+
+    public Map<String, String> getServerInfoForCurrentConnection() {
+
+        //Map erstellen
+        Map<String, String> serverInfoMap = new HashMap<>();
+        if(isConnected()) {
+
+            //Datenbankinfo laden und einlesen
+            String serverInfo = jedis.info();
+
+            String[] serverInfoParts = serverInfo.split("\n");
+
+            for(int i = 0; i < serverInfoParts.length; i++) {
+
+                String part = serverInfoParts[i].trim();
+
+                //Eintrag
+                Matcher m = Pattern.compile("^([^:]+):(.+)$").matcher(part);
+                if(m.find()) {
+
+                    String key = m.group(1).trim();
+                    String value = m.group(2).trim();
+                    serverInfoMap.put(key, value);
+                    continue;
+                }
+            }
+        }
+        return serverInfoMap;
     }
 
     /**

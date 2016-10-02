@@ -1,0 +1,14 @@
+{
+  "name": "SHC REST Dokumentation",
+  "version": "1.0.0",
+  "description": "Dokumentation der REST Schnittstellen des SHC",
+  "apidoc": {
+    "title": "SHC REST Dokumentation"
+  },
+  "order": [
+    "Error",
+    "Define",
+    "PostTitleAndError",
+    "PostError"
+  ]
+}

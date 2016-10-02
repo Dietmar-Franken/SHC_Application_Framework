@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import de.rpi_controlcenter.AppServer.Controller.Configurator.CliConfigurator;
 import de.rpi_controlcenter.AppServer.Controller.Install.Installer;
 import de.rpi_controlcenter.AppServer.Controller.Install.Updater;
+import de.rpi_controlcenter.AppServer.Controller.REST.Application.ApplicationRestServer;
 import de.rpi_controlcenter.AppServer.Model.Data.User.User;
 import de.rpi_controlcenter.AppServer.Model.Database.DatabaseManager;
 import de.rpi_controlcenter.AppServer.Model.Editor.*;
@@ -16,6 +17,7 @@ import de.rpi_controlcenter.Util.Logger.LoggerUtil;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -229,6 +231,16 @@ public class AppServer {
     private void startAppliaction() {
 
         logger.info("application is rady to start");
+
+        ApplicationRestServer applicationRestServer = new ApplicationRestServer();
+        try {
+
+            applicationRestServer.startServer();
+            logger.info("Der Application REST Server ist erfolgreich gestartet wurden");
+        } catch (IOException e) {
+
+            logger.log(Level.SEVERE, "Der Application REST Server konnte nicht gestartet werden", e);
+        }
     }
 
     /**
@@ -328,6 +340,15 @@ public class AppServer {
 
         rooms = new RoomEditor();
         rooms.load();
+    }
+
+    /**
+     * gibt den Datenbankmanager zurück
+     *
+     * @return Datenbankmanager
+     */
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 
     /**
