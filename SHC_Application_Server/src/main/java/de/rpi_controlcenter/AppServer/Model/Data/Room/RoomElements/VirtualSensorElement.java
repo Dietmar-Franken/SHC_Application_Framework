@@ -3,7 +3,7 @@ package de.rpi_controlcenter.AppServer.Model.Data.Room.RoomElements;
 import de.rpi_controlcenter.AppServer.Model.Data.Room.AbstractRoomElement;
 
 /**
- * description
+ * Virtueller Sensor
  *
  * @author Oliver Kleditzsch
  * @copyright Copyright (c) 2016, Oliver Kleditzsch
