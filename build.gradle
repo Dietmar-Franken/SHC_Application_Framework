@@ -23,6 +23,16 @@ subprojects {
     }
 }
 
+//REST Dokumentation aktualisieren
+task updateRestDoc(type:Exec) {
+
+    commandLine 'apidoc', '-i', 'SHC_Application_Server/', '-o', 'RestDoc/'
+    standardOutput = new ByteArrayOutputStream()
+    ext.output = {
+        return standardOutput.toString()
+    }
+}
+
 //Jar Archive aller Subprojekte erstellen
 task buildSubprojects(type: Jar) {
 
@@ -78,6 +88,7 @@ task buildDistributionSources(type: Zip) {
 //Anwendung erstellen
 task buildApplication() {
 
+    dependsOn updateRestDoc
     dependsOn buildSubprojects
     dependsOn buildDistribution
     dependsOn buildDistributionWithDocumentation
