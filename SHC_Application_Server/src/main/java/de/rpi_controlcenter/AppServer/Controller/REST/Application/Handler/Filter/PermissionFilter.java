@@ -33,7 +33,7 @@ public class PermissionFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        
+
         //prüfen ob die Rechteprüfung aktiv ist (per Annotation)
         final Method method = resourceInfo.getResourceMethod();
         if(method.isAnnotationPresent(PermissionCheck.class)) {
