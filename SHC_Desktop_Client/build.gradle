@@ -17,4 +17,5 @@ jar {
                     'Implementation-Version': version,
                     'Main-Class': 'de.test.Test'
     }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }

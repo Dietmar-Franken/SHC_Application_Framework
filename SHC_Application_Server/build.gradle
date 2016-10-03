@@ -24,7 +24,6 @@ dependencies {
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-grizzly2-http', version: '+'
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-jaxb', version: '+'
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '+'
-    compile group: 'org.glassfish.jersey.core', name: 'jersey-media-json-jackson', version: '+'
 }
 
 jar {
@@ -33,4 +32,5 @@ jar {
                     'Implementation-Version': version,
                     'Main-Class': 'de.rpi_controlcenter.AppServer.Controller.AppServer'
     }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
