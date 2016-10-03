@@ -90,7 +90,7 @@ public class IconEditor extends AbstractDatabaseEditor<Icon> {
                     if(Files.isDirectory(baseName)) {
 
                         //prüfen ob das Icon schon bekannt ist
-                        String baseNameStr = baseName.toString();
+                        String baseNameStr = baseName.toString().toLowerCase().replace("icons/", "");
                         Optional<Icon> iconOptional = getIconByBaseName(baseNameStr);
                         Icon icon = null;
                         if(iconOptional.isPresent()) {
@@ -102,12 +102,12 @@ public class IconEditor extends AbstractDatabaseEditor<Icon> {
                             //neues Icon
                             icon = new Icon(createId(), baseNameStr);
                             icon.setBaseFileName(baseNameStr);
-                            icon.setBasePath(iconDirectory.resolve(baseName).toAbsolutePath().toString());
+                            icon.setBasePath(iconDirectory.resolve(baseNameStr).toAbsolutePath().toString());
                             getData().add(icon);
                         }
 
                         //verfügbare größen auslesen
-                        try (DirectoryStream<Path> stream1 = Files.newDirectoryStream(iconDirectory.resolve(baseName), "*.png")) {
+                        try (DirectoryStream<Path> stream1 = Files.newDirectoryStream(iconDirectory.resolve(baseNameStr), "*.png")) {
 
                             for(Path iconFile : stream1) {
 
