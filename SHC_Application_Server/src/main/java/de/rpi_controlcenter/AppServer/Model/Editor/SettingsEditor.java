@@ -280,6 +280,26 @@ public class SettingsEditor implements DatabaseEditor {
     }
 
     /**
+     * gibt ein Lock Objekt zum erlangen des Leselock zurück
+     *
+     * @return Lock Objekt
+     */
+    @Override
+    public ReentrantReadWriteLock.ReadLock readLock() {
+        return readWriteLock.readLock();
+    }
+
+    /**
+     * gibt ein Lock Objekt zum erlangen des Schreiblock zurück
+     *
+     * @return Lock Objekt
+     */
+    @Override
+    public ReentrantReadWriteLock.WriteLock writeLock() {
+        return readWriteLock.writeLock();
+    }
+
+    /**
      * gibt das Class Objekt zum Typ zurück
      *
      * @param typeStr Typ String

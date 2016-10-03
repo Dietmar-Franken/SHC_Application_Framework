@@ -5,6 +5,7 @@ import de.rpi_controlcenter.AppServer.Model.Data.Element.Element;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -151,5 +152,25 @@ public abstract class AbstractDatabaseEditor<T extends Element> implements Datab
     @Override
     public ReentrantReadWriteLock getReadWriteLock() {
         return readWriteLock;
+    }
+
+    /**
+     * gibt ein Lock Objekt zum erlangen des Leselock zurück
+     *
+     * @return Lock Objekt
+     */
+    @Override
+    public ReentrantReadWriteLock.ReadLock readLock() {
+        return readWriteLock.readLock();
+    }
+
+    /**
+     * gibt ein Lock Objekt zum erlangen des Schreiblock zurück
+     *
+     * @return Lock Objekt
+     */
+    @Override
+    public ReentrantReadWriteLock.WriteLock writeLock() {
+        return readWriteLock.writeLock();
     }
 }

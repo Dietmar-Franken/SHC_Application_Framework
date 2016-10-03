@@ -107,4 +107,24 @@ public class DeviceEditor implements DatabaseEditor {
     public ReentrantReadWriteLock getReadWriteLock() {
         return readWriteLock;
     }
+
+    /**
+     * gibt ein Lock Objekt zum erlangen des Leselock zurück
+     *
+     * @return Lock Objekt
+     */
+    @Override
+    public ReentrantReadWriteLock.ReadLock readLock() {
+        return readWriteLock.readLock();
+    }
+
+    /**
+     * gibt ein Lock Objekt zum erlangen des Schreiblock zurück
+     *
+     * @return Lock Objekt
+     */
+    @Override
+    public ReentrantReadWriteLock.WriteLock writeLock() {
+        return readWriteLock.writeLock();
+    }
 }

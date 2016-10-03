@@ -42,7 +42,7 @@ public class ApplicationRestServer {
             rc.packages("de.rpi_controlcenter.AppServer.Controller.REST.Application.Handler");
 
             //Einstellungen lesen
-            Lock lock = AppServer.getInstance().getSettings().getReadWriteLock().readLock();
+            Lock lock = AppServer.getInstance().getSettings().readLock();
             lock.lock();
             StringSetting applicationServerAddress = AppServer.getInstance().getSettings().getStringSetting(SettingsEditor.APPLICATION_SERVER_ADDRESS);
             IntegerSetting applicationServerPort = AppServer.getInstance().getSettings().getIntegerSetting(SettingsEditor.APPLICATION_SERVER_PORT);
