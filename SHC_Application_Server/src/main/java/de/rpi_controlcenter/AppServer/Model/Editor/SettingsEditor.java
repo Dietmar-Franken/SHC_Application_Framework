@@ -134,21 +134,25 @@ public class SettingsEditor implements DatabaseEditor {
             Setting setting = (Setting) gson.fromJson(settingJson, clazz);
             settings.add(setting);
         }
-
+        System.out.println(settings.size());
         //mit bekannten Einstellungen falls nötig auffüllen
         for(Setting knownSetting : knownSettings) {
 
             String knownSettingName = knownSetting.getName();
+            boolean found = false;
             for(Setting setting : settings) {
 
-                if(setting.getName().equals(knownSettingName)) {
+                if(setting.getName().equalsIgnoreCase(knownSettingName)) {
 
-                    //vorhanden, überspringen
-                    break;
+                    found = true;
                 }
             }
-            settings.add(knownSetting);
+            if(!found) {
+
+                settings.add(knownSetting);
+            }
         }
+        System.out.println(settings.size());
     }
 
     /**
