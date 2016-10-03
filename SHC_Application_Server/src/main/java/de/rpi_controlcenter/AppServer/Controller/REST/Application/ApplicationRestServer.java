@@ -44,12 +44,18 @@ public class ApplicationRestServer {
             //Einstellungen lesen
             Lock lock = AppServer.getInstance().getSettings().readLock();
             lock.lock();
-            StringSetting applicationServerAddress = AppServer.getInstance().getSettings().getStringSetting(SettingsEditor.APPLICATION_SERVER_ADDRESS);
-            IntegerSetting applicationServerPort = AppServer.getInstance().getSettings().getIntegerSetting(SettingsEditor.APPLICATION_SERVER_PORT);
-            StringSetting applicationServerCertificatePassword = AppServer.getInstance().getSettings().getStringSetting(SettingsEditor.APPLICATION_SERVER_CERTIFICATE_PASSWORD);
+            String serverAddressString = "http://localhost:8080";
+            try {
 
-            String serverAddressString = "http://" + applicationServerAddress.getValue() + ":" + applicationServerPort.getValue();
-            lock.unlock();
+                StringSetting applicationServerAddress = AppServer.getInstance().getSettings().getStringSetting(SettingsEditor.APPLICATION_SERVER_ADDRESS);
+                IntegerSetting applicationServerPort = AppServer.getInstance().getSettings().getIntegerSetting(SettingsEditor.APPLICATION_SERVER_PORT);
+                StringSetting applicationServerCertificatePassword = AppServer.getInstance().getSettings().getStringSetting(SettingsEditor.APPLICATION_SERVER_CERTIFICATE_PASSWORD);
+
+                serverAddressString = "http://" + applicationServerAddress.getValue() + ":" + applicationServerPort.getValue();
+            } finally {
+
+                lock.unlock();
+            }
 
             server = GrizzlyHttpServerFactory.createHttpServer(
                     URI.create(serverAddressString),      //Server Adresse
