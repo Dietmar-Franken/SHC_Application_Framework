@@ -27,13 +27,6 @@ import java.util.Map;
 public class Info {
 
     /**
-     * @apiDefine AuthenticationError
-     *
-     * @apiError (4xx) {Number} code Fehlercode
-     * @apiError (4xx) {String} message Fehlermeldung
-     */
-
-    /**
      * @api {get} /info Server Informationen
      * @apiName getInfo
      * @apiGroup Info

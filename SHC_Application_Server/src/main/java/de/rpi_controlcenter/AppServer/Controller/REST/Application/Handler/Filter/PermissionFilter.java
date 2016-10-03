@@ -31,6 +31,12 @@ public class PermissionFilter implements ContainerRequestFilter {
     @Context
     ResourceInfo resourceInfo;
 
+    /**
+     * @apiDefine AuthenticationError
+     *
+     * @apiError (4xx) {Number} code Fehlercode
+     * @apiError (4xx) {String} message Fehlermeldung
+     */
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
