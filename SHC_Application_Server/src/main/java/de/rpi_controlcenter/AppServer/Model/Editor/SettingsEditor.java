@@ -134,7 +134,7 @@ public class SettingsEditor implements DatabaseEditor {
             Setting setting = (Setting) gson.fromJson(settingJson, clazz);
             settings.add(setting);
         }
-        System.out.println(settings.size());
+
         //mit bekannten Einstellungen falls nötig auffüllen
         for(Setting knownSetting : knownSettings) {
 
@@ -152,7 +152,6 @@ public class SettingsEditor implements DatabaseEditor {
                 settings.add(knownSetting);
             }
         }
-        System.out.println(settings.size());
     }
 
     /**
