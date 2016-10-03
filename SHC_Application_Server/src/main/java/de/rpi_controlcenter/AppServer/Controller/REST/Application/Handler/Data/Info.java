@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sun.management.OperatingSystemMXBean;
 import de.rpi_controlcenter.AppServer.Controller.AppServer;
+import de.rpi_controlcenter.AppServer.Controller.REST.PermissionCheck;
+import de.rpi_controlcenter.AppServer.Model.Data.User.Permission;
 import redis.clients.jedis.Jedis;
 
 import javax.ws.rs.GET;
@@ -25,62 +27,57 @@ import java.util.Map;
 public class Info {
 
     /**
+     * @apiDefine AuthenticationError
+     *
+     * @apiError (4xx) {Number} code Fehlercode
+     * @apiError (4xx) {String} message Fehlermeldung
+     */
+
+    /**
      * @api {get} /info Server Informationen
      * @apiName getInfo
      * @apiGroup Info
      * @apiVersion 1.0.0
+     * @apiPermission ENTER_ACP
      * @apiDescription Gibt Informationen zu folgenden Bereiche zurück:
      *      SHC (Allgemein),
      *      System (Laufzeitinformationen),
      *      Java Virtual Maschine (Laufzeitinformationen),
      *      Datenbank (Laufzeitinformationen)
      *
-     * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *          "shc": {
-     *              "version": "0.1.0",
-     *              "apiLevel": 1,
-     *              "libarys": [
-     *                  "Google Gson",
-     *                  "Google Guava",
-     *                  "Jedis",
-     *                  "SunriseSunsetCalculator",
-     *                  "Grizzly",
-     *                  "Jetty",
-     *                  "Jersey"
-     *              ]
-     *          },
-     *          "system": {
-     *              "cpuLoad": 0.08325074331020813,
-     *              "freeMemory": 8381874176,
-     *              "totalMemory": 16634654720
-     *          },
-     *          "jvm": {
-     *              "version": "1.8.0_101",
-     *              "availableProcessors": 4,
-     *              "cpuLoad": 0.000023374641490796785,
-     *              "maxMemory": 3698851840,
-     *              "freeMemory": 248953432,
-     *              "totalMemory": 677380096,
-     *              "runningThreads": 28
-     *          },
-     *          "db": {
-     *              "version": "3.0.6",
-     *              "mode": "standalone",
-     *              "uptime": "24512",
-     *              "configFile": "/etc/redis/redis.conf",
-     *              "usedMemory": "637416",
-     *              "usedMemoryPeak": "637440",
-     *              "lastSaveTime": "1475402534",
-     *              "lastSaveState": "ok",
-     *              "totalBytesInput": "559269",
-     *              "totalBytesOutput": "1184094"
-     *          }
-     *     }
+     * @apiSuccess (200) {Object} shc SHC Informationen
+     * @apiSuccess (200) {String} shc.version Version
+     * @apiSuccess (200) {Number} shc.apiLevel API Level
+     * @apiSuccess (200) {String[]} shc.libarys verwendete Libarys
+     * @apiSuccess (200) {Object} system System Informationen
+     * @apiSuccess (200) {Number} system.cpuLoad CPU Auslastung
+     * @apiSuccess (200) {Number} system.freeMemory freier Arbeitsspeicher
+     * @apiSuccess (200) {Number} system.totalMemory gesamter Arbeitsspeicher
+     * @apiSuccess (200) {Object} jvm JVM Informationen
+     * @apiSuccess (200) {String} jvm.version Java Version
+     * @apiSuccess (200) {Number} jvm.availableProcessors Anzahl der Prozessoren die der JVM zur verfügung stehen
+     * @apiSuccess (200) {Number} jvm.cpuLoad CPU Auslastung der JVM
+     * @apiSuccess (200) {Number} jvm.maxMemory Maximaler Arbeitsspeicher der JVM
+     * @apiSuccess (200) {Number} jvm.freeMemory freier Arbeitsspeicher der JVM
+     * @apiSuccess (200) {Number} jvm.totalMemory reservierter Arbeitsspeicher der JVM
+     * @apiSuccess (200) {Number} jvm.runningThreads Anzahl der laufenden Threads in der JVM
+     * @apiSuccess (200) {Object} db Datenbank (Redis) Informationen
+     * @apiSuccess (200) {String} db.version Version
+     * @apiSuccess (200) {String} db.mode Modus
+     * @apiSuccess (200) {Number} db.uptime Laufzeit
+     * @apiSuccess (200) {String} db.configFile Konfigurationsdatei
+     * @apiSuccess (200) {Number} db.usedMemory benötigter Arbeitsspeicher
+     * @apiSuccess (200) {Number} db.usedMemoryPeak benötigter Arbeitsspeicher (Spitze)
+     * @apiSuccess (200) {Number} db.lastSaveTime Zeitstempel der letzten Sicherung der Datenbank
+     * @apiSuccess (200) {String} db.lastSaveState Status der letzten Sicherung der Datenbank
+     * @apiSuccess (200) {Number} db.totalBytesInput Empfangene Datenmenge in Bytes
+     * @apiSuccess (200) {Number} db.totalBytesOutput Gesendete Datenmenge in Bytes
+     *
+     * @apiUse AuthenticationError
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @PermissionCheck(Permission.ENTER_ACP)
     public Response getInfo() {
 
         //Vorbereitung
@@ -99,7 +96,6 @@ public class Info {
         ja.add("Jedis");
         ja.add("SunriseSunsetCalculator");
         ja.add("Grizzly");
-        ja.add("Jetty");
         ja.add("Jersey");
         shc.add("libarys", ja);
         jo.add("shc", shc);
@@ -144,16 +140,16 @@ public class Info {
      * @apiName dumpDatabase
      * @apiGroup Info
      * @apiVersion 1.0.0
+     * @apiPermission ENTER_ACP
      * @apiDescription fordert den Datenbankserver auf die Datenbank zu speichern auf
      *
-     * @apiSuccessExample Success-Response:
-     *     HTTP/1.1 200 OK
-     *     {
-     *          "state": "Background saving started"
-     *     }
+     * @apiSuccess (200) {String} state Status Information
+     *
+     * @apiUse AuthenticationError
      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
+    @PermissionCheck(Permission.ENTER_ACP)
     public Response dumpDatabase() {
 
         Jedis jedis = AppServer.getInstance().getDatabaseConnection();

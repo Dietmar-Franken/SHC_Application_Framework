@@ -10,6 +10,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public enum Permission {
 
+    @SerializedName("ENTER_ACP")
+    ENTER_ACP,
     @SerializedName("MANAGE_USERS")
     MANAGE_USERS,
     @SerializedName("MANAGE_KNOWN_DEVICES")

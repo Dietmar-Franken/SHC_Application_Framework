@@ -21,6 +21,10 @@
 |:-----:|:---------------------------------------------------------------|
 | 10100 | Ungültiges Passwort (User) 
 | 10101 | Es wurde keine Benutzergruppe zugeordnet (User) 
+| 10102 | kein Token (Authentication)
+| 10103 | ungültiger Token (Authentication)
+| 10104 | kein Benutzer angemeldet (Authentication)
+| 10105 | der Benutzer besitzt nicht die nötigen Rechte (Authentication)
 
 ### Automatisierungs Fehler
 

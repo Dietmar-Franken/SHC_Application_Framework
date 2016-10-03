@@ -74,62 +74,62 @@ public class AppServer {
     /**
      * Einstellungs Verwaltung
      */
-    private SettingsEditor settings;
+    private volatile SettingsEditor settings;
 
     /**
      * Benutzergruppen Verwaltung
      */
-    private UserGroupsEditor userGroups;
+    private volatile UserGroupsEditor userGroups;
 
     /**
      * Benutzer Verwaltung
      */
-    private UsersEditor users;
+    private volatile UsersEditor users;
 
     /**
      * Session Verwaltung
      */
-    private SessionEditor sessions;
+    private volatile SessionEditor sessions;
 
     /**
      * Client Geräte verwaltung
      */
-    private DeviceEditor devices;
+    private volatile DeviceEditor devices;
 
     /**
      * Schaltserver verwaltung
      */
-    private SwitchServerEditor switchServers;
+    private volatile SwitchServerEditor switchServers;
 
     /**
      * Sensorwerte Verwaltung
      */
-    private SensorValueEditor sensorValues;
+    private volatile SensorValueEditor sensorValues;
 
     /**
      * schaltbare Elemente verwaltung
      */
-    private SwitchableEditor switchables;
+    private volatile SwitchableEditor switchables;
 
     /**
      * Bedingungen verwaltung
      */
-    private ConditionEditor conditions;
+    private volatile ConditionEditor conditions;
 
     /**
      * Automatisierungsoperationen verwaltung
      */
-    private OperationEditor operations;
+    private volatile OperationEditor operations;
 
     /**
      * Icon verwaltung
      */
-    private IconEditor icons;
+    private volatile IconEditor icons;
 
     /**
      * Raum verwaltung
      */
-    private RoomEditor rooms;
+    private volatile RoomEditor rooms;
 
     /**
      * Eintrittspunkt in die Anwendung
@@ -236,11 +236,11 @@ public class AppServer {
         try {
 
             applicationRestServer.startServer();
-            logger.info("Der Application REST Server ist erfolgreich gestartet wurden");
         } catch (IOException e) {
 
             logger.log(Level.SEVERE, "Der Application REST Server konnte nicht gestartet werden", e);
         }
+
     }
 
     /**
