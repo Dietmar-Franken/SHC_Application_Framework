@@ -13,6 +13,7 @@ import redis.clients.jedis.Pipeline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Verwaltung der Einstellungen
@@ -21,6 +22,11 @@ import java.util.Optional;
  * @copyright Copyright (c) 2016, Oliver Kleditzsch
  */
 public class SettingsEditor implements DatabaseEditor {
+
+    /**
+     * Lock objekt
+     */
+    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     private static final String DATABASE_KEY = "shc:setting:settings";
 
@@ -261,6 +267,16 @@ public class SettingsEditor implements DatabaseEditor {
             pipeline.lpush(DATABASE_KEY, gson.toJson(setting));
         }
         pipeline.sync();
+    }
+
+    /**
+     * gibt das Lockobjekt zurück
+     *
+     * @return Lockobjekt
+     */
+    @Override
+    public ReentrantReadWriteLock getReadWriteLock() {
+        return readWriteLock;
     }
 
     /**

@@ -5,6 +5,8 @@ import de.rpi_controlcenter.AppServer.Model.Data.Element.Element;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Datenbank Verwaltung
@@ -20,9 +22,9 @@ public abstract class AbstractDatabaseEditor<T extends Element> implements Datab
     private List<T> data = new ArrayList<T>();
 
     /**
-     * lädt die Elemente aus der Datenbank
+     * Lock objekt
      */
-    public abstract void load();
+    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     /**
      * erzeugt einen neuen Hash zur eindeutigen Identifizierung
@@ -142,7 +144,12 @@ public abstract class AbstractDatabaseEditor<T extends Element> implements Datab
     }
 
     /**
-     * speichert die Elemente in der Datenbank
+     * gibt das Lockobjekt zurück
+     *
+     * @return Lockobjekt
      */
-    public abstract void dump();
+    @Override
+    public ReentrantReadWriteLock getReadWriteLock() {
+        return readWriteLock;
+    }
 }

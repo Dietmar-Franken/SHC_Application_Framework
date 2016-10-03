@@ -1,5 +1,8 @@
 package de.rpi_controlcenter.AppServer.Model.Database;
 
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 /**
  * Datenbank Verwaltung
  *
@@ -17,4 +20,11 @@ public interface DatabaseEditor {
      * speichert die Elemente in der Datenbank
      */
     void dump();
+
+    /**
+     * gibt das Lockobjekt zurück
+     *
+     * @return Lockobjekt
+     */
+    ReentrantReadWriteLock getReadWriteLock();
 }

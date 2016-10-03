@@ -10,6 +10,7 @@ import redis.clients.jedis.Pipeline;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * description
@@ -18,6 +19,11 @@ import java.util.Optional;
  * @copyright Copyright (c) 2016, Oliver Kleditzsch
  */
 public class DeviceEditor implements DatabaseEditor {
+
+    /**
+     * Lock objekt
+     */
+    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     private static final String DATABASE_KEY = "shc:device:devices";
 
@@ -90,5 +96,15 @@ public class DeviceEditor implements DatabaseEditor {
             pipeline.lpush(DATABASE_KEY, gson.toJson(clientDevice));
         }
         pipeline.sync();
+    }
+
+    /**
+     * gibt das Lockobjekt zurück
+     *
+     * @return Lockobjekt
+     */
+    @Override
+    public ReentrantReadWriteLock getReadWriteLock() {
+        return readWriteLock;
     }
 }
