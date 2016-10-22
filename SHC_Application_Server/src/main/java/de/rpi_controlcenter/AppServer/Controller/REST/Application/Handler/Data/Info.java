@@ -27,7 +27,7 @@ import java.util.Map;
 public class Info {
 
     /**
-     * @api {get} /info Server Informationen
+     * @api {get} /info?t=:token Server Informationen
      * @apiName getInfo
      * @apiGroup Info
      * @apiVersion 1.0.0
@@ -66,7 +66,50 @@ public class Info {
      * @apiSuccess (200) {Number} db.totalBytesInput Empfangene Datenmenge in Bytes
      * @apiSuccess (200) {Number} db.totalBytesOutput Gesendete Datenmenge in Bytes
      *
-     * @apiUse AuthenticationError
+     * @apiExample Response:
+     *      HTTP/1.1 200 OK
+     *      {
+        "shc": {
+            "version": "0.1.0",
+            "apiLevel": 1,
+            "libarys": [
+                "Google Gson",
+                "Google Guava",
+                "Jedis",
+                "SunriseSunsetCalculator",
+                "Grizzly",
+                "Jersey"
+            ]
+        },
+        "system": {
+            "cpuLoad": 0.14192629846795876,
+            "freeMemory": 3788398592,
+            "totalMemory": 16770277376
+        },
+        "jvm": {
+            "version": "1.8.0_101",
+            "availableProcessors": 8,
+            "cpuLoad": 0.000057742121130185896,
+            "maxMemory": 3728736256,
+            "freeMemory": 416402800,
+            "totalMemory": 870318080,
+            "runningThreads": 28
+        },
+        "db": {
+            "version": "3.2.1",
+            "mode": "standalone",
+            "uptime": "11780",
+            "configFile": "/etc/redis/redis.conf",
+            "usedMemory": "815552",
+            "usedMemoryPeak": "857328",
+            "lastSaveTime": "1477116824",
+            "lastSaveState": "ok",
+            "totalBytesInput": "19820",
+            "totalBytesOutput": "126002"
+        }
+    }
+     *
+     * @apiUse Authentication
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -125,11 +168,11 @@ public class Info {
         db.addProperty("totalBytesOutput", dbInfo.containsKey("total_net_output_bytes") ? dbInfo.get("total_net_output_bytes") : "unbekannt");
         jo.add("db", db);
 
-        return Response.status(Response.Status.OK).entity(jo.toString()).build();
+        return Response.ok().entity(jo.toString()).build();
     }
 
     /**
-     * @api {put} /info Datenbak speichern
+     * @api {put} /info?t=:token Datenbak speichern
      * @apiName dumpDatabase
      * @apiGroup Info
      * @apiVersion 1.0.0
@@ -138,7 +181,13 @@ public class Info {
      *
      * @apiSuccess (200) {String} state Status Information
      *
-     * @apiUse AuthenticationError
+     * @apiUse Authentication
+     *
+     * @apiExample Response:
+     *      HTTP/1.1 200 OK
+     *      {
+        "state": "Background saving started"
+     }
      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -150,6 +199,6 @@ public class Info {
 
         JsonObject jo = new JsonObject();
         jo.addProperty("state", state);
-        return Response.status(Response.Status.OK).entity(jo.toString()).build();
+        return Response.ok().entity(jo.toString()).build();
     }
 }

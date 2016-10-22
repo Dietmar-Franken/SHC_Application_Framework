@@ -497,6 +497,7 @@ public class AppServer {
      */
     public void dump() {
 
+        //TODO Locks einbinden
         settings.dump();
         userGroups.dump();
         users.dump();

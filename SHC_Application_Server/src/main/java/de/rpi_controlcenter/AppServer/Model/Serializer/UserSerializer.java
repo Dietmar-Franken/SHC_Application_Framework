@@ -9,6 +9,7 @@ import de.rpi_controlcenter.AppServer.Model.Editor.UserGroupsEditor;
 import java.lang.reflect.Type;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 /**
  * description
@@ -32,14 +33,22 @@ public class UserSerializer implements JsonSerializer<User>, JsonDeserializer<Us
 
         JsonArray array = jo.get("userGroups").getAsJsonArray();
         UserGroupsEditor userGroupsEditor = AppServer.getInstance().getUserGroups();
-        for(int i = 0; i < array.size(); i++) {
+        Lock lock = userGroupsEditor.readLock();
+        lock.lock();
+        try {
 
-            String userGroupHash = array.get(i).getAsString();
-            Optional<UserGroup> userGroup = userGroupsEditor.getById(userGroupHash);
-            if(userGroup.isPresent()) {
+            for(int i = 0; i < array.size(); i++) {
 
-                user.getUserGroups().add(userGroup.get());
+                String userGroupHash = array.get(i).getAsString();
+                Optional<UserGroup> userGroup = userGroupsEditor.getById(userGroupHash);
+                if(userGroup.isPresent()) {
+
+                    user.getUserGroups().add(userGroup.get());
+                }
             }
+        } finally {
+
+            lock.unlock();
         }
 
         return user;

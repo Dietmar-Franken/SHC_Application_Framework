@@ -32,14 +32,26 @@ public class PermissionFilter implements ContainerRequestFilter {
     ResourceInfo resourceInfo;
 
     /**
-     * @apiDefine AuthenticationError
+     * @apiDefine Authentication
+     *
+     * @apiParam {String} token Autorisierungstoken
      *
      * @apiError (4xx) {Number} code Fehlercode
      * @apiError (4xx) {String} message Fehlermeldung
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 401 Unauthorized
+     *     {
+     *       "code": 10103,
+     *       "message": "ungültiger Token"
+     *     }
      */
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
+        //TODO ausgeblendet für Entwicklung
+        return;
+/*
         //prüfen ob die Rechteprüfung aktiv ist (per Annotation)
         final Method method = resourceInfo.getResourceMethod();
         if(method.isAnnotationPresent(PermissionCheck.class)) {
@@ -135,6 +147,6 @@ public class PermissionFilter implements ContainerRequestFilter {
             if(response != null) {
                 requestContext.abortWith(response);
             }
-        }
+        }*/
     }
 }

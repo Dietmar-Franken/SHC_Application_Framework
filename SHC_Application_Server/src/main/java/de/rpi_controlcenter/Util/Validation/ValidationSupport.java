@@ -14,10 +14,6 @@ import java.util.*;
  */
 public class ValidationSupport {
 
-    //TODO Support für Platzhalter mit dem Wert in der Meldung
-    //TODO ValidatePast
-    //TODO ValidateFuture
-
     /**
      * Sprachpaket
      */

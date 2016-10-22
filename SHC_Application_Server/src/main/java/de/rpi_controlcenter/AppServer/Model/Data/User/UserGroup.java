@@ -114,6 +114,15 @@ public class UserGroup extends AbstractElement {
     }
 
     /**
+     * löscht alle Berechtigungen
+     *
+     * @return eroflg
+     */
+    public void clearPermissions() {
+        permissions.clear();
+    }
+
+    /**
      * prüft die Berechtigungen der Benutzergruppe
      *
      * @param permission Berechtigung

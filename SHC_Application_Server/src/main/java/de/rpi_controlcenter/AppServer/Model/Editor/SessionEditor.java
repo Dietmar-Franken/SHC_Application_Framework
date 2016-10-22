@@ -29,7 +29,7 @@ public class SessionEditor {
     /**
      * Lock objekt
      */
-    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
 
     /**
      * löscht abgelaufene Sitzungen

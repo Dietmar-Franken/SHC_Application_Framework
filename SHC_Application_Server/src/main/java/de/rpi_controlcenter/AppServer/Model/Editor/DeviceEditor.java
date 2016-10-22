@@ -23,7 +23,7 @@ public class DeviceEditor implements DatabaseEditor {
     /**
      * Lock objekt
      */
-    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
 
     private static final String DATABASE_KEY = "shc:device:devices";
 

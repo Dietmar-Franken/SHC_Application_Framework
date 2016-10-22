@@ -25,7 +25,7 @@ public abstract class AbstractDatabaseEditor<T extends Element> implements Datab
     /**
      * Lock objekt
      */
-    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private volatile ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock(true);
 
     /**
      * erzeugt einen neuen Hash zur eindeutigen Identifizierung
