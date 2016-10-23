@@ -26,6 +26,10 @@ import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -204,6 +208,18 @@ public class AppServer {
                     }
                 }
             });
+
+            //Automatisches Speichern der Daten in die Datenbank
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.scheduleAtFixedRate(
+                    () -> {
+
+                        //Datenbank speichern
+                        AppServer.getInstance().dump();
+                    },
+                    30, //Startverzögerung
+                    30, //Intervall
+                    TimeUnit.SECONDS);
 
             //Anwendug starten
             instance.startAppliaction();
@@ -497,18 +513,115 @@ public class AppServer {
      */
     public void dump() {
 
-        //TODO Locks einbinden
-        settings.dump();
-        userGroups.dump();
-        users.dump();
-        devices.dump();
-        switchServers.dump();
-        sensorValues.dump();
-        switchables.dump();
-        conditions.dump();
-        operations.dump();
-        icons.dump();
-        rooms.dump();
+        Lock settingsLock = settings.readLock();
+        settingsLock.lock();
+        try {
+
+            settings.dump();
+        } finally {
+
+            settingsLock.unlock();
+        }
+
+        Lock userGroupsLock = userGroups.readLock();
+        userGroupsLock.lock();
+        try {
+
+            userGroups.dump();
+        } finally {
+
+            userGroupsLock.unlock();
+        }
+
+        Lock userLock = users.readLock();
+        userLock.lock();
+        try {
+
+            users.dump();
+        } finally {
+
+            userLock.unlock();
+        }
+
+        Lock devicesLock = devices.readLock();
+        devicesLock.lock();
+        try {
+
+            devices.dump();
+        } finally {
+
+            devicesLock.unlock();
+        }
+
+        Lock switchServerLock = switchServers.readLock();
+        switchServerLock.lock();
+        try {
+
+            switchServers.dump();
+        } finally {
+
+            switchServerLock.unlock();
+        }
+
+        Lock sensorValuesLock = sensorValues.readLock();
+        sensorValuesLock.lock();
+        try {
+
+            sensorValues.dump();
+        } finally {
+
+            sensorValuesLock.unlock();
+        }
+
+        Lock switchablesLock = switchables.readLock();
+        switchablesLock.lock();
+        try {
+
+            switchables.dump();
+        } finally {
+
+            switchablesLock.unlock();
+        }
+
+        Lock conditionLock = conditions.readLock();
+        conditionLock.lock();
+        try {
+
+            conditions.dump();
+        } finally {
+
+            conditionLock.unlock();
+        }
+
+        Lock operationLock = operations.readLock();
+        operationLock.lock();
+        try {
+
+            operations.dump();
+        } finally {
+
+            operationLock.unlock();
+        }
+
+        Lock iconLock = icons.readLock();
+        iconLock.lock();
+        try {
+
+            icons.dump();
+        } finally {
+
+            iconLock.unlock();
+        }
+
+        Lock roomLock = rooms.readLock();
+        roomLock.lock();
+        try {
+
+            rooms.dump();
+        } finally {
+
+            roomLock.unlock();
+        }
     }
 
     /**
