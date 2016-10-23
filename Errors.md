@@ -47,3 +47,15 @@
 | Code  | Beschreibung                                                   |
 |:-----:|:---------------------------------------------------------------|
 | 10300 | Ungültiger Intervall (Button) 
+
+
+###REST Fehler
+
+| Code  | Beschreibung                                                   |
+|:-----:|:---------------------------------------------------------------|
+| 10500 | ungültiges JSON
+| 10501 | Daten ungültig
+| 10502 | der Datensatz exitiert bereits
+| 10503 | der Datensatz konnte nicht gefunden werden
+| 10504 | der Name ist bereits vergeben
+| 10505 | ein Systemelement kann nicht gelöscht werden

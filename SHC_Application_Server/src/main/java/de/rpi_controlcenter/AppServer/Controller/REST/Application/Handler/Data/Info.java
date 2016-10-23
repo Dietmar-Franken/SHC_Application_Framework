@@ -177,7 +177,7 @@ public class Info {
      * @apiGroup Info
      * @apiVersion 1.0.0
      * @apiPermission ENTER_ACP
-     * @apiDescription fordert den Datenbankserver auf die Datenbank zu speichern auf
+     * @apiDescription fordert den Datenbankserver auf die Datenbank zu speichern
      *
      * @apiSuccess (200) {String} state Status Information
      *

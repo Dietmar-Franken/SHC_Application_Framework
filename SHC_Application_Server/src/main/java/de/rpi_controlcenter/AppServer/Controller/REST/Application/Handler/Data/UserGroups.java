@@ -124,7 +124,7 @@ public class UserGroups {
      * @apiPermission MANAGE_USERS
      * @apiDescription sucht nach der Benutzergruppe mit der ID und gibt ihn falls vorhanden zurück
      *
-     * @apiParam {String} id ID des Benutzers
+     * @apiParam {String} id ID der Benutzergruppe
      *
      * @apiUse Authentication
      *
@@ -260,7 +260,7 @@ public class UserGroups {
         "descripion": "Benutzer können die Funktionen des SHC nutzen",
         "systemGroup": true,
         "permissions": [
-        "SWITCH_ELEMENTS",
+            "SWITCH_ELEMENTS",
             "ENTER_ACP"
         ],
         "id": "97e2eb81ce8f2b4162a89de33e4ebfc01ad3da8c",

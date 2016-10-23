@@ -366,7 +366,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "id",
-            "description": "<p>ID des Benutzers</p>"
+            "description": "<p>ID der Benutzergruppe</p>"
           },
           {
             "group": "Parameter",
@@ -557,7 +557,7 @@ define({ "api": [
     "examples": [
       {
         "title": "Request:",
-        "content": " {\n    \"descripion\": \"Benutzer können die Funktionen des SHC nutzen\",\n    \"systemGroup\": true,\n    \"permissions\": [\n    \"SWITCH_ELEMENTS\",\n        \"ENTER_ACP\"\n    ],\n    \"id\": \"97e2eb81ce8f2b4162a89de33e4ebfc01ad3da8c\",\n    \"name\": \"Test123\"\n}",
+        "content": " {\n    \"descripion\": \"Benutzer können die Funktionen des SHC nutzen\",\n    \"systemGroup\": true,\n    \"permissions\": [\n        \"SWITCH_ELEMENTS\",\n        \"ENTER_ACP\"\n    ],\n    \"id\": \"97e2eb81ce8f2b4162a89de33e4ebfc01ad3da8c\",\n    \"name\": \"Test123\"\n}",
         "type": "json"
       },
       {
@@ -752,7 +752,7 @@ define({ "api": [
         "name": "ENTER_ACP"
       }
     ],
-    "description": "<p>fordert den Datenbankserver auf die Datenbank zu speichern auf</p>",
+    "description": "<p>fordert den Datenbankserver auf die Datenbank zu speichern</p>",
     "success": {
       "fields": {
         "200": [
