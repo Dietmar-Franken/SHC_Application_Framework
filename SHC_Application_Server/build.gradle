@@ -22,8 +22,8 @@ dependencies {
     //JAX-RS Libarys
     compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '+'
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-grizzly2-http', version: '+'
-    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-jaxb', version: '+'
-    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '+'
+    //compile group: 'org.glassfish.jersey.media', name: 'jersey-media-jaxb', version: '+'
+    //compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '+'
 }
 
 jar {
