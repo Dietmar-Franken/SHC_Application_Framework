@@ -741,6 +741,81 @@
     }
   },
   {
+    "type": "delete",
+    "url": "/icon/:id?t=:token",
+    "title": "löschen",
+    "name": "deleteIcon",
+    "group": "Icon",
+    "version": "1.0.0",
+    "permission": [
+      {
+        "name": "ENTER_ACP"
+      }
+    ],
+    "description": "<p>löscht ein Icon</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>ID des Icons</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "token",
+            "description": "<p>Autorisierungstoken</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Response:",
+        "content": "HTTP/1.1 204 No Content",
+        "type": "json"
+      }
+    ],
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Internal Server Error",
+          "type": "json"
+        },
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n  \"code\": 10103,\n  \"message\": \"ungültiger Token\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "4xx": [
+          {
+            "group": "4xx",
+            "type": "Number",
+            "optional": false,
+            "field": "code",
+            "description": "<p>Fehlercode</p>"
+          },
+          {
+            "group": "4xx",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Fehlermeldung</p>"
+          }
+        ]
+      }
+    },
+    "filename": "SHC_Application_Server/src/main/java/de/rpi_controlcenter/AppServer/Controller/REST/Application/Handler/Data/Icons.java",
+    "groupTitle": "Icon"
+  },
+  {
     "type": "get",
     "url": "/icon",
     "title": "Liste aller Icons",
@@ -761,7 +836,7 @@
   {
     "type": "get",
     "url": "/icon/:iconName/:size",
-    "title": "Icon download",
+    "title": "download",
     "name": "loadIcon",
     "group": "Icon",
     "version": "1.0.0",
@@ -808,7 +883,7 @@
   {
     "type": "put",
     "url": "/icon",
-    "title": "Icons einlesen",
+    "title": "einlesen",
     "name": "updateIcons",
     "group": "Icon",
     "version": "1.0.0",
