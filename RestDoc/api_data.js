@@ -741,6 +741,98 @@ define({ "api": [
     }
   },
   {
+    "type": "get",
+    "url": "/icon",
+    "title": "Liste aller Icons",
+    "name": "listIcons",
+    "group": "Icon",
+    "version": "1.0.0",
+    "description": "<p>gibt eine Liste mit allen Icons zurück</p>",
+    "examples": [
+      {
+        "title": "Response:",
+        "content": " HTTP/1.1 200 OK\n [\n    {\n        \"availableSize\": [\n            48,\n            96,\n            72\n        ],\n        \"baseFileName\": \"test_1\",\n        \"basePath\": \"/media/Daten/Projekte/Java/SHC_Application_Framework/Icons/test_1\",\n        \"id\": \"e1426ac3841b2ac0277b5d70147cf168d1da35c5\",\n        \"name\": \"test_1\"\n    },\n    {\n        \"availableSize\": [\n            48,\n            96,\n            72\n        ],\n        \"baseFileName\": \"test_2\",\n        \"basePath\": \"/media/Daten/Projekte/Java/SHC_Application_Framework/Icons/test_2\",\n        \"id\": \"c8fe01a4a927bcc428b3e24bbb3b2829aae715e8\",\n        \"name\": \"test_2\"\n    }\n]",
+        "type": "json"
+      }
+    ],
+    "filename": "SHC_Application_Server/src/main/java/de/rpi_controlcenter/AppServer/Controller/REST/Application/Handler/Data/Icons.java",
+    "groupTitle": "Icon"
+  },
+  {
+    "type": "get",
+    "url": "/icon/:iconName/:size",
+    "title": "Icon download",
+    "name": "loadIcon",
+    "group": "Icon",
+    "version": "1.0.0",
+    "description": "<p>download eines Icons</p>",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "iconName",
+            "description": "<p>Name des Icons</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "size",
+            "description": "<p>Größe des Icons (wenn nicht vorhanden wird es scaliert)</p>"
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Response:",
+        "content": "HTTP/1.1 200 OK\n~~Binärdaten~~",
+        "type": "json"
+      }
+    ],
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 204 No Content",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "SHC_Application_Server/src/main/java/de/rpi_controlcenter/AppServer/Controller/REST/Application/Handler/Data/Icons.java",
+    "groupTitle": "Icon"
+  },
+  {
+    "type": "put",
+    "url": "/icon",
+    "title": "Icons einlesen",
+    "name": "updateIcons",
+    "group": "Icon",
+    "version": "1.0.0",
+    "description": "<p>fordert den Server auf die Icons neu ein zu lesen</p>",
+    "examples": [
+      {
+        "title": "Response:",
+        "content": "HTTP/1.1 200 OK",
+        "type": "json"
+      }
+    ],
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Internal Server Error",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "SHC_Application_Server/src/main/java/de/rpi_controlcenter/AppServer/Controller/REST/Application/Handler/Data/Icons.java",
+    "groupTitle": "Icon"
+  },
+  {
     "type": "put",
     "url": "/info?t=:token",
     "title": "Datenbak speichern",
