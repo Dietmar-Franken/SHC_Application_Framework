@@ -7,6 +7,7 @@ import de.rpi_controlcenter.Util.Settings.IntegerSetting;
 import de.rpi_controlcenter.Util.Settings.StringSetting;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class ApplicationRestServer {
 
             ResourceConfig rc = new ResourceConfig();
             rc.packages("de.rpi_controlcenter.AppServer.Controller.REST.Application.Handler");
+            rc.register(MultiPartFeature.class);
 
             //Einstellungen lesen
             Lock lock = AppServer.getInstance().getSettings().readLock();
@@ -65,10 +67,6 @@ public class ApplicationRestServer {
             );
 
             server.start();
-            if(server.isStarted()) {
-
-                logger.info("Application REST Server unter der Adresse " + serverAddressString + " gestartet");
-            }
         }
     }
 
