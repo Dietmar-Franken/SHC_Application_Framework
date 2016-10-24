@@ -1,9 +1,12 @@
 package de.rpi_controlcenter.AppServer.Controller.REST.Application.Handler.Data;
 
 import de.rpi_controlcenter.AppServer.Controller.AppServer;
+import de.rpi_controlcenter.AppServer.Controller.REST.PermissionCheck;
 import de.rpi_controlcenter.AppServer.Model.Data.Icon.Icon;
+import de.rpi_controlcenter.AppServer.Model.Data.User.Permission;
 import de.rpi_controlcenter.AppServer.Model.Editor.IconEditor;
 import de.rpi_controlcenter.Util.Image.ImageUtil;
+import de.rpi_controlcenter.Util.Json.JsonUtil;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.*;
@@ -82,7 +85,7 @@ public class Icons {
     }
 
     /**
-     * @api {put} /icon Icons einlesen
+     * @api {put} /icon einlesen
      * @apiName updateIcons
      * @apiGroup Icon
      * @apiVersion 1.0.0
@@ -116,7 +119,7 @@ public class Icons {
     }
 
     /**
-     * @api {get} /icon/:iconName/:size Icon download
+     * @api {get} /icon/:iconName/:size download
      * @apiName loadIcon
      * @apiGroup Icon
      * @apiVersion 1.0.0
@@ -219,6 +222,60 @@ public class Icons {
 
             lock.unlock();
         }
+    }
+
+    /**
+     * @api {delete} /icon/:id?t=:token löschen
+     * @apiName deleteIcon
+     * @apiGroup Icon
+     * @apiVersion 1.0.0
+     * @apiPermission ENTER_ACP
+     * @apiDescription löscht ein Icon
+     *
+     * @apiParam {String} id ID des Icons
+     *
+     * @apiUse Authentication
+     *
+     * @apiExample Response:
+     *     HTTP/1.1 204 No Content
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 500 Internal Server Error
+     */
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @PermissionCheck(Permission.ENTER_ACP)
+    public Response deleteIcon(@PathParam("id") final String id) {
+
+        IconEditor iconEditor = AppServer.getInstance().getIcons();
+        Lock lock = iconEditor.writeLock();
+        lock.lock();
+
+        try {
+
+            Optional<Icon> iconOptional = iconEditor.getById(id);
+            if(iconOptional.isPresent()) {
+
+                if(iconEditor.getData().remove(iconOptional.get())) {
+
+                    Icon icon = iconOptional.get();
+                    for(int size : icon.getAvailableSize()) {
+
+                        Files.deleteIfExists(Paths.get(icon.getBasePath(), size + ".png"));
+                    }
+                    Files.deleteIfExists(Paths.get(icon.getBasePath()));
+                    return Response.noContent().build();
+                }
+            }
+        } catch (IOException e) {
+
+            return Response.serverError().build();
+        } finally {
+
+            lock.unlock();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
 
